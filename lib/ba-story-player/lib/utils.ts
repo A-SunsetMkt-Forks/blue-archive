@@ -98,6 +98,42 @@ export function getResourcesUrl(type: ResourcesTypes, arg: string): string {
   }
 }
 
+//zindex utils
+interface Zindex {
+  min: number;
+  max: number;
+}
+
+const ZIndexs = {
+  characterLayer: {
+    min: 201,
+    max: 300,
+  },
+  effectLayer: {
+    min: 101,
+    max: 200,
+  },
+  bgLayer: {
+    min: 1,
+    max: 100,
+  },
+};
+
+/**
+ * 请求得到一个zIndex
+ * @param layer 所在层
+ * @param order zIndex在该层的次序
+ * @returns
+ */
+export function getZindex(layer: keyof typeof ZIndexs, order: number) {
+  const zIndex = ZIndexs[layer].min + order;
+  if (zIndex <= ZIndexs[layer].max) {
+    return zIndex;
+  } else {
+    throw new Error("请求的zIndex超出该层范围");
+  }
+}
+
 /**
  * 设置数据站点
  * @param url
